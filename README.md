@@ -1,5 +1,5 @@
 # slick-image-gallery
-A feature-rich, single page application to showcase an image gallery, with data stored in cloud. Where users can authenticate, users can also upload new images, so they can upload these to the cloud, and display in the image gallery. User can also search for and filter results. Also implement client-side routing to allow page navigation.
+A feature-rich, single page application to showcase an image gallery, with data stored in cloud. Where users can authenticate, users can also upload new images, so they can upload these to the cloud, and display in the image gallery. User can also search for and filter results. Also, implement client-side routing to allow page navigation.
 
 ## Project Goals
 * Implement state management: with hooks and the Context API
