@@ -36,7 +36,7 @@ function App() {
     }
   }
   const handleOnSubmit = (e) => {
-    e.preventDefault() // the default behavior with the form is that it's going to refresh the page
+    e.preventDefault() // the default behavior with the form is that it's going to refresh the page.
     setItems([inputs.path, ...items])
   }
   useEffect(() => {
