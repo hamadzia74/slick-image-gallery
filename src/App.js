@@ -38,6 +38,8 @@ function App() {
   const handleOnSubmit = (e) => {
     e.preventDefault() // the default behavior with the form is that it's going to refresh the page.
     setItems([inputs.path, ...items])
+    setInputs({ title: null, file: null, path: null })
+    collapse(false)
   }
   useEffect(() => {
     setCount(`you have ${items.length} image${items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
@@ -50,7 +52,7 @@ function App() {
         {/* <button className='btn btn-warning mx-2' onClick={() => setItems(['https://picsum.photos/id/1009/200/200', ...items])}>+ Add</button> */}
         <button className='btn btn-success float-end' onClick={toggle}>{isCollapsed ? 'Close' : '+ Add'}</button>
         <div className="clearfix mb-4"></div>
-        <UploadForm isVisible={isCollapsed} onChange={handleOnChange} onSubmit={handleOnSubmit} />
+        <UploadForm inputs={inputs} isVisible={isCollapsed} onChange={handleOnChange} onSubmit={handleOnSubmit} />
         {count}
         <h1>Gallery</h1>
         <div className="row">
