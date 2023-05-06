@@ -45,7 +45,7 @@ function reducer(state, action) {
     case 'collapse':
       return {
         ...state,
-        iseCollapsed: action.payload.bool
+        isCollapsed: action.payload.bool
       }
     default: return state
   }
