@@ -1,9 +1,8 @@
 
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useState } from 'react';
 import './App.css';
 import Card from './components/Card';
-import Navbar from './components/Navbar';
-import UploadForm from './components/UploadForm';
+import Layout from './components/Layout';
 
 // const photos = [
 //   'https://picsum.photos/id/1001/200/200',
@@ -35,7 +34,9 @@ function reducer(state, action) {
     case 'setItem':
       return {
         ...state,
-        items: [state.inputs, ...state.items]
+        items: [state.inputs, ...state.items],
+        count: state.items.length + 1,
+        inputs: { title: null, file: null, path: null }
       }
     case 'setInputs':
       return {
@@ -53,7 +54,7 @@ function reducer(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const [count, setCount] = useState();
+  // const [count, setCount] = useState();
   // const [input, setInput] = useState();
   // const [inputs, setInputs] = useState({ title: null, file: null, path: null });
   // const [items, setItems] = useState(photos);
@@ -88,31 +89,26 @@ function App() {
   //   console.log(state)
   // }, [state.items])
 
-  useEffect(() => {
-    setCount(`you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
+  const count = useMemo(() => {
+    return `you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`
   }, [state.items])
+  // useEffect(() => {
+  //   // setCount(`you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
+  // }, [state.items])
   return (
-    <>
-      <Navbar />
-
-      <div className="container text-center mt-5">
-        {/* <button className='btn btn-warning mx-2' onClick={() => setItems(['https://picsum.photos/id/1009/200/200', ...items])}>+ Add</button> */}
-        <button className='btn btn-success float-end' onClick={() => toggle(!state.isCollapsed)}>{state.isCollapsed ? 'Close' : '+ Add'}</button>
-        <div className="clearfix mb-4"></div>
-        <UploadForm inputs={state.inputs} isVisible={state.isCollapsed} onChange={handleOnChange} onSubmit={handleOnSubmit} />
-        {count}
-        <h1>Gallery</h1>
-        <div className="row">
-          {/*
+    <Layout state={state} onChange={handleOnChange} onSubmit={handleOnSubmit} toggle={toggle}>
+      <h1 className='text-center'>Gallery</h1>
+      {count}
+      <div className="row">
+        {/*
           {Array.apply(null, { length: 9 }).map(() => <Card />)}
 
          creates an array of length 9 with null values using the apply() method of the Array constructor. The null value is used as a placeholder for each element of the array.
           Once the array is created, the map() method is called on it. The map() method creates a new array by calling the specified function on each element of the original array. In this case, the function being passed to map() is an empty function that does nothing.  */}
-          {/* {photos.map((photo) => <Card src={photo} />)} */}
-          {state.items.map((photo, index) => <Card key={index} src={photo.path} />)}
-        </div>
+        {/* {photos.map((photo) => <Card src={photo} />)} */}
+        {state.items.map((item, index) => <Card key={index} {...item} />)}
       </div>
-    </>
+    </Layout>
   );
 }
 
