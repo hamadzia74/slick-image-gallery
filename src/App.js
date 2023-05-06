@@ -1,22 +1,40 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import './App.css';
 import Card from './components/Card';
 import Navbar from './components/Navbar';
 import UploadForm from './components/UploadForm';
 
-const photos = [
-  'https://picsum.photos/id/1001/200/200',
-  'https://picsum.photos/id/1002/200/200',
-  'https://picsum.photos/id/1003/200/200',
-  'https://picsum.photos/id/1004/200/200',
-  'https://picsum.photos/id/1005/200/200',
-  'https://picsum.photos/id/1006/200/200',
-  'https://picsum.photos/id/1008/200/200',
+// const photos = [
+//   'https://picsum.photos/id/1001/200/200',
+//   'https://picsum.photos/id/1002/200/200',
+//   'https://picsum.photos/id/1003/200/200',
+//   'https://picsum.photos/id/1004/200/200',
+//   'https://picsum.photos/id/1005/200/200',
+//   'https://picsum.photos/id/1006/200/200',
+//   'https://picsum.photos/id/1008/200/200',
 
-]
+// ]
+const photos = []
+const initialState = {
+  items: photos,
+  count: photos.length,
+  inputs: { title: null, file: null, path: null },
+  isCollapsed: false
+}
+function reducer(state, action) {
+  switch(action.type) {
+    case 'setItem':
+      return{
+        ...state,
+        items: [action.payload.path, ...state.items]
+      }
+      default : return state
+  }
+}
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState)
   const [count, setCount] = useState();
   // const [input, setInput] = useState();
   const [inputs, setInputs] = useState({ title: null, file: null, path: null });
@@ -37,10 +55,15 @@ function App() {
   }
   const handleOnSubmit = (e) => {
     e.preventDefault() // the default behavior with the form is that it's going to refresh the page.
-    setItems([inputs.path, ...items])
+    // setItems([inputs.path, ...items])
+    dispatch({ type: 'setItem', payload: { path: inputs }})
     setInputs({ title: null, file: null, path: null })
     collapse(false)
   }
+  useEffect(() => {
+    console.log(state)
+  }, [state.items])
+
   useEffect(() => {
     setCount(`you have ${items.length} image${items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
   }, [items])
@@ -62,7 +85,7 @@ function App() {
          creates an array of length 9 with null values using the apply() method of the Array constructor. The null value is used as a placeholder for each element of the array.
           Once the array is created, the map() method is called on it. The map() method creates a new array by calling the specified function on each element of the original array. In this case, the function being passed to map() is an empty function that does nothing.  */}
           {/* {photos.map((photo) => <Card src={photo} />)} */}
-          {items.map((photo) => <Card src={photo} />)}
+          {state.items.map((photo, index) => <Card key={index} src={photo.path} />)}
         </div>
       </div>
     </>

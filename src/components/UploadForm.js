@@ -14,7 +14,6 @@ const Preview = ({ path }) => {
     );
 };
 
-
 const UploadForm = ({ inputs, isVisible, onChange, onSubmit }) => {
 
     const isDisabled = useMemo(() => {
