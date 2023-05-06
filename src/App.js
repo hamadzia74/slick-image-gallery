@@ -22,14 +22,32 @@ const initialState = {
   inputs: { title: null, file: null, path: null },
   isCollapsed: false
 }
+const handleOnChange = (state, e) => {
+  if (e.target.name === 'file') {
+    return { ...state.inputs, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0]) }
+  }
+  else {
+    return { ...state.inputs, title: e.target.value }
+  }
+}
 function reducer(state, action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'setItem':
-      return{
+      return {
         ...state,
-        items: [action.payload.path, ...state.items]
+        items: [state.inputs, ...state.items]
       }
-      default : return state
+    case 'setInputs':
+      return {
+        ...state,
+        inputs: handleOnChange(state, action.payload.value)
+      }
+    case 'collapse':
+      return {
+        ...state,
+        iseCollapsed: action.payload.bool
+      }
+    default: return state
   }
 }
 
@@ -37,45 +55,51 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [count, setCount] = useState();
   // const [input, setInput] = useState();
-  const [inputs, setInputs] = useState({ title: null, file: null, path: null });
-  const [items, setItems] = useState(photos);
-  const [isCollapsed, collapse] = useState(false);
-  const toggle = () => collapse(!isCollapsed);
+  // const [inputs, setInputs] = useState({ title: null, file: null, path: null });
+  // const [items, setItems] = useState(photos);
+  // const [isCollapsed, collapse] = useState(false);
+  // const toggle = () => collapse(!isCollapsed);
+  // const toggle = () => dispatch( {type: "collapse", payload: { bool: !state.isCollapsed }} )
+  const toggle = (bool) => dispatch({ type: "collapse", payload: { bool } })
   // const handleOnChange = (e) => setInput(e.target.value)
   // const handleOnChange = (e) => {
   //   setInput({ title: e.target.value, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0]) })
   // }
-  const handleOnChange = (e) => {
-    if (e.target.name === 'file') {
-      setInputs({ ...inputs, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0]) })
-    }
-    else {
-      setInputs({ ...inputs, title: e.target.value })
-    }
-  }
+  // const handleOnChange = (e) => {
+  //   if (e.target.name === 'file') {
+  //     setInputs({ ...inputs, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0]) })
+  //   }
+  //   else {
+  //     setInputs({ ...inputs, title: e.target.value })
+  //   }
+  // }
+  const handleOnChange = (e) => dispatch({ type: 'setInputs', payload: { value: e } })
   const handleOnSubmit = (e) => {
     e.preventDefault() // the default behavior with the form is that it's going to refresh the page.
     // setItems([inputs.path, ...items])
-    dispatch({ type: 'setItem', payload: { path: inputs }})
-    setInputs({ title: null, file: null, path: null })
-    collapse(false)
+    // dispatch({ type: 'setItem', payload: { path: inputs }})
+    dispatch({ type: 'setItem' })
+
+    // setInputs({ title: null, file: null, path: null })
+    // collapse(false)
+    toggle(!state.isCollapsed)
   }
-  useEffect(() => {
-    console.log(state)
-  }, [state.items])
+  // useEffect(() => {
+  //   console.log(state)
+  // }, [state.items])
 
   useEffect(() => {
-    setCount(`you have ${items.length} image${items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
-  }, [items])
+    setCount(`you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
+  }, [state.items])
   return (
     <>
       <Navbar />
 
       <div className="container text-center mt-5">
         {/* <button className='btn btn-warning mx-2' onClick={() => setItems(['https://picsum.photos/id/1009/200/200', ...items])}>+ Add</button> */}
-        <button className='btn btn-success float-end' onClick={toggle}>{isCollapsed ? 'Close' : '+ Add'}</button>
+        <button className='btn btn-success float-end' onClick={() => toggle(!state.isCollapsed)}>{state.isCollapsed ? 'Close' : '+ Add'}</button>
         <div className="clearfix mb-4"></div>
-        <UploadForm inputs={inputs} isVisible={isCollapsed} onChange={handleOnChange} onSubmit={handleOnSubmit} />
+        <UploadForm inputs={state.inputs} isVisible={state.isCollapsed} onChange={handleOnChange} onSubmit={handleOnSubmit} />
         {count}
         <h1>Gallery</h1>
         <div className="row">
