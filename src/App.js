@@ -1,5 +1,5 @@
 
-import { useMemo, useReducer, useContext } from 'react';
+import { useMemo, useContext } from 'react';
 import { Context } from './context';
 import './App.css';
 import Card from './components/Card';
