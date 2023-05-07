@@ -38,7 +38,7 @@ function reducer(state, action) {
     }
 }
 
-const Context = createContext()
+export const Context = createContext()
 
 const Provider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
