@@ -55,7 +55,7 @@ import Layout from './components/Layout';
 
 function App() {
   // const [state, dispatch] = useReducer(reducer, initialState)
-  const { dispatch, state } = useContext(Context)
+  const {  state } = useContext(Context)
   debugger
   // const [count, setCount] = useState();
   // const [input, setInput] = useState();
@@ -64,7 +64,7 @@ function App() {
   // const [isCollapsed, collapse] = useState(false);
   // const toggle = () => collapse(!isCollapsed);
   // const toggle = () => dispatch( {type: "collapse", payload: { bool: !state.isCollapsed }} )
-  const toggle = (bool) => dispatch({ type: "collapse", payload: { bool } })
+  // const toggle = (bool) => dispatch({ type: "collapse", payload: { bool } })
   // const handleOnChange = (e) => setInput(e.target.value)
   // const handleOnChange = (e) => {
   //   setInput({ title: e.target.value, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0]) })
@@ -77,17 +77,17 @@ function App() {
   //     setInputs({ ...inputs, title: e.target.value })
   //   }
   // }
-  const handleOnChange = (e) => dispatch({ type: 'setInputs', payload: { value: e } })
-  const handleOnSubmit = (e) => {
-    e.preventDefault() // the default behavior with the form is that it's going to refresh the page.
+  // const handleOnChange = (e) => dispatch({ type: 'setInputs', payload: { value: e } })
+  // const handleOnSubmit = (e) => {
+    // e.preventDefault() // the default behavior with the form is that it's going to refresh the page.
     // setItems([inputs.path, ...items])
     // dispatch({ type: 'setItem', payload: { path: inputs }})
-    dispatch({ type: 'setItem' })
+    // dispatch({ type: 'setItem' })
 
     // setInputs({ title: null, file: null, path: null })
     // collapse(false)
-    toggle(!state.isCollapsed)
-  }
+    // toggle(!state.isCollapsed)
+  // }
   // useEffect(() => {
   //   console.log(state)
   // }, [state.items])
@@ -99,7 +99,7 @@ function App() {
   //   // setCount(`you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
   // }, [state.items])
   return (
-    <Layout state={state} onChange={handleOnChange} onSubmit={handleOnSubmit} toggle={toggle}>
+    <Layout>
       <h1 className='text-center'>Gallery</h1>
       {count}
       <div className="row">

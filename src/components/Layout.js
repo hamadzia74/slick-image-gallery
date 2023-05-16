@@ -1,7 +1,13 @@
+/* eslint-disable */
+import { useContext } from "react"
+import { Context } from "../context"
 import Navbar from "./Navbar"
 import UploadForm from "./UploadForm"
 
-function Layout({ children, state, onChange, onSubmit, toggle }) {
+function Layout({ children }) {
+    const { dispatch, state } = useContext(Context)
+  const toggle = (bool) => dispatch({ type: "collapse", payload: { bool } })
+
     return (
         <>
             <Navbar />
@@ -9,7 +15,7 @@ function Layout({ children, state, onChange, onSubmit, toggle }) {
                 {/* <button className='btn btn-warning mx-2' onClick={() => setItems(['https://picsum.photos/id/1009/200/200', ...items])}>+ Add</button> */}
                 <button className='btn btn-success float-end' onClick={() => toggle(!state.isCollapsed)}>{state.isCollapsed ? 'Close' : '+ Add'}</button>
                 <div className="clearfix mb-4"></div>
-                <UploadForm inputs={state.inputs} isVisible={state.isCollapsed} onChange={onChange} onSubmit={onSubmit} />
+                <UploadForm inputs={state.inputs} isVisible={state.isCollapsed} />
                 {children}
             </div>
         </>
