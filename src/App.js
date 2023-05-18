@@ -1,5 +1,6 @@
 
-import { useMemo, useContext } from 'react';
+import { useMemo, useContext, useEffect } from 'react';
+import app from './lib/firebase.config';
 import { Context } from './context';
 import './App.css';
 import Card from './components/Card';
@@ -98,6 +99,9 @@ function App() {
   // useEffect(() => {
   //   // setCount(`you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
   // }, [state.items])
+  useEffect(() => {
+    app()
+  }, [])
   return (
     <Layout>
       <h1 className='text-center'>Gallery</h1>
