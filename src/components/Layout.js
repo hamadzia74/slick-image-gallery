@@ -6,6 +6,7 @@ import UploadForm from "./UploadForm"
 
 function Layout({ children }) {
     const { dispatch, state } = useContext(Context)
+    const { isCollapsed : isVisible, inputs  } = state // destructuring the current state
   const toggle = (bool) => dispatch({ type: "collapse", payload: { bool } })
 
     return (
@@ -13,9 +14,9 @@ function Layout({ children }) {
             <Navbar />
             <div className="container mt-5">
                 {/* <button className='btn btn-warning mx-2' onClick={() => setItems(['https://picsum.photos/id/1009/200/200', ...items])}>+ Add</button> */}
-                <button className='btn btn-success float-end' onClick={() => toggle(!state.isCollapsed)}>{state.isCollapsed ? 'Close' : '+ Add'}</button>
+                <button className='btn btn-success float-end' onClick={() => toggle(!isVisible)}>{isVisible ? 'Close' : '+ Add'}</button>
                 <div className="clearfix mb-4"></div>
-                <UploadForm inputs={state.inputs} isVisible={state.isCollapsed} />
+                <UploadForm inputs={inputs} isVisible={isVisible} />
                 {children}
             </div>
         </>
