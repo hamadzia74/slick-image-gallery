@@ -1,9 +1,12 @@
 
-import { useMemo, useContext } from 'react';
+import { useMemo, useContext, useEffect } from 'react';
 import { Context } from './context';
 import './App.css';
 import Card from './components/Card';
 import Layout from './components/Layout';
+import Firestore from "./handlers/firestore";
+
+const { readDocs } = Firestore
 
 // const photos = [
 //   'https://picsum.photos/id/1001/200/200',
@@ -98,6 +101,9 @@ function App() {
   // useEffect(() => {
   //   // setCount(`you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
   // }, [state.items])
+  useEffect(() => {
+    readDocs().then(console.log)
+  }, [])
   return (
     <Layout>
       <h1 className='text-center'>Gallery</h1>
