@@ -4,9 +4,6 @@ import { Context } from './context';
 import './App.css';
 import Card from './components/Card';
 import Layout from './components/Layout';
-import Firestore from "./handlers/firestore";
-
-const { readDocs } = Firestore
 
 // const photos = [
 //   'https://picsum.photos/id/1001/200/200',
@@ -58,7 +55,7 @@ const { readDocs } = Firestore
 
 function App() {
   // const [state, dispatch] = useReducer(reducer, initialState)
-  const {  state } = useContext(Context)
+  const {  state, read } = useContext(Context)
   debugger
   // const [count, setCount] = useState();
   // const [input, setInput] = useState();
@@ -102,7 +99,7 @@ function App() {
   //   // setCount(`you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`) //use backticks because want to use some static content with local variables
   // }, [state.items])
   useEffect(() => {
-    readDocs().then(console.log)
+    read()
   }, [])
   return (
     <Layout>
