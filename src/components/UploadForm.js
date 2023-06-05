@@ -4,7 +4,7 @@ import Firestore from "../handlers/firestore";
 import Storage from "../handlers/storage";
 
 const { writeDoc } = Firestore
-const { UploadFile } = Storage
+const { uploadFile } = Storage
 
 const Preview = () => {
   const { state } = useContext(Context)
@@ -28,7 +28,7 @@ const UploadForm = () => {
   const handleOnChange = (e) => dispatch({ type: 'setInputs', payload: { value: e}})
   const handleOnSubmit = (e) => {
     e.preventDefault()
-    UploadFile(state.inputs).then(media => {
+    uploadFile(state.inputs).then(media => {
       debugger
       writeDoc(inputs, "stocks").then(console.log)
     dispatch({ type: 'setItem'})
@@ -63,7 +63,7 @@ const UploadForm = () => {
             className="btn btn-success float-end"
             disabled={isDisabled}
           >
-            Save and upload
+            Save and update
           </button>
         </form>
       </div>
